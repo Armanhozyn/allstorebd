@@ -19,6 +19,17 @@
                   <div class="card-body">
                     <form action="{{route('admin.products.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
+
+
+                        <div class="form-group">
+                            <label for="inputState">Product Zone</label>
+                            <select id="product_zone" class="form-control" name="product_zone">
+                                <option value="">Select</option>
+                                <option value="b2c">B2C</option>
+                                <option value="b2b">B2B</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>Image</label>
                             <input type="file" class="form-control" name="image">
@@ -131,6 +142,7 @@
                                 <option value="featured_product">Featured</option>
                                 <option value="top_product">Top Product</option>
                                 <option value="best_product">Best Product</option>
+                                <option value="trending_product">Trending Product</option>
                             </select>
                         </div>
 

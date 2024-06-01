@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductVariantItem;
 use Illuminate\Http\Request;
 use Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -27,8 +28,12 @@ class CartController extends Controller
 
         $cartpage_banner_section = Adverisement::where('key', 'cartpage_banner_section')->first();
         $cartpage_banner_section = json_decode($cartpage_banner_section?->value);
-
-        return view('frontend.pages.cart-detail', compact('cartItems', 'cartpage_banner_section'));
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.cart-detail', compact('cartItems', 'cartpage_banner_section'));
+        }else{
+            return view('frontend.b2c.pages.cart-detail', compact('cartItems', 'cartpage_banner_section'));
+            
+        }
     }
 
     /** Add item to cart */

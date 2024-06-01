@@ -13,7 +13,13 @@ class WishlistController extends Controller
     {
         $wishlistProducts = Wishlist::with('product')->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
 
-        return view('frontend.pages.wishlist', compact('wishlistProducts'));
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.wishlist', compact('wishlistProducts'));
+
+        }else{
+            return view('frontend.b2c.pages.wishlist', compact('wishlistProducts'));
+
+        }
     }
 
     public function addToWishlist(Request $request)

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\GeneralSetting;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 /** Set Sidebar item active */
@@ -133,5 +134,6 @@ function getCurrencyIcon()
 
     return $icon->currency_icon;
 }
+
 
 

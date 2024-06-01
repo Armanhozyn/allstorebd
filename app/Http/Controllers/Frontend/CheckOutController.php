@@ -15,7 +15,13 @@ class CheckOutController extends Controller
     {
         $addresses = UserAddress::where('user_id', Auth::user()->id)->get();
         $shippingMethods = ShippingRule::where('status', 1)->get();
-        return view('frontend.pages.checkout', compact('addresses', 'shippingMethods'));
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.checkout', compact('addresses', 'shippingMethods'));
+
+        }else{
+            return view('frontend.b2c.pages.checkout', compact('addresses', 'shippingMethods'));
+
+        }
     }
 
     public function createAddress(Request $request)
@@ -30,7 +36,6 @@ class CheckOutController extends Controller
             'zip' => ['required', 'max: 200'],
             'address' => ['required', 'max: 200']
         ]);
-
         $address = new UserAddress();
         $address->user_id = Auth::user()->id;
         $address->name = $request->name;

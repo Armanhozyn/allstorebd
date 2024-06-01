@@ -11,14 +11,20 @@ use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class FrontendProductController extends Controller
 {
     public function productsIndex(Request $request)
     {
+        $subcategories = "";
+        $child_categories = "";
+        $category = "";
+
         if($request->has('category')){
             $category = Category::where('slug', $request->category)->firstOrFail();
+            $subcategories = SubCategory::where(['status' => 1,'category_id' => $category->id])->get();
             $products = Product::withAvg('reviews', 'rating')->withCount('reviews')
             ->with(['variants', 'category', 'productImageGalleries'])
             ->where([
@@ -36,6 +42,7 @@ class FrontendProductController extends Controller
             ->paginate(12);
         }elseif($request->has('subcategory')){
             $category = SubCategory::where('slug', $request->subcategory)->firstOrFail();
+            $child_categories = ChildCategory::where(['status' => 1,'sub_category_id' => $category->id])->get();
             $products = Product::withAvg('reviews', 'rating')->withCount('reviews')
             ->with(['variants', 'category', 'productImageGalleries'])
             ->where([
@@ -108,21 +115,33 @@ class FrontendProductController extends Controller
         }
 
         $categories = Category::where(['status' => 1])->get();
+   
         $brands = Brand::where(['status' => 1])->get();
         // banner ad
         $productpage_banner_section = Adverisement::where('key', 'productpage_banner_section')->first();
         $productpage_banner_section = json_decode($productpage_banner_section?->value);
-
-        return view('frontend.pages.product', compact('products', 'categories', 'brands', 'productpage_banner_section'));
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.product', compact('products', 'categories', 'brands', 'productpage_banner_section','subcategories','child_categories','category'));
+        }else{
+            return view('frontend.b2c.pages.product', compact('products', 'categories', 'brands', 'productpage_banner_section','subcategories','child_categories','category'));
+        }
+     
     }
     /** Show product detail page */
     public function showProduct(string $slug)
     {
         $product = Product::with(['vendor', 'category', 'productImageGalleries', 'variants', 'brand'])->where('slug', $slug)->where('status', 1)->first();
+        $trending_products = Product::with(['vendor', 'category', 'productImageGalleries', 'variants', 'brand'])->where('status', 1)->where('product_type','trending_product')->get();
+        $related_products = Product::with(['vendor', 'category', 'productImageGalleries', 'variants', 'brand'])->where('products.category_id',$product->category_id)->where('status', 1)->get();
         $reviews = ProductReview::where('product_id', $product->id)->where('status', 1)->paginate(10);
-        return view('frontend.pages.product-detail', compact('product', 'reviews'));
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.product-detail', compact('product', 'reviews','trending_products','related_products'));
+        }else{
+            return view('frontend.b2c.pages.product-detail', compact('product', 'reviews'));
+        }
     }
 
+    
     public function chageListView(Request $request)
     {
        Session::put('product_list_style', $request->style);

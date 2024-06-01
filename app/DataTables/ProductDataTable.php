@@ -62,6 +62,20 @@ class ProductDataTable extends DataTable
                         break;
                 }
             })
+
+            ->addColumn('product_zone', function($query){
+                switch ($query->product_zone) {
+                    case 'b2b':
+                        return '<i class="badge badge-info">B2B</i>';
+                        break;
+                    case 'b2c':
+                        return '<i class="badge badge-warning">B2C</i>';
+                        break;
+                    default:
+                        return '<i class="badge badge-dark">None</i>';
+                        break;
+                }
+            })
             ->addColumn('status', function($query){
                 if($query->status == 1){
                     $button = '<label class="custom-switch mt-2">
@@ -76,7 +90,7 @@ class ProductDataTable extends DataTable
                 }
                 return $button;
             })
-            ->rawColumns(['image', 'type', 'status', 'action'])
+            ->rawColumns(['image', 'type','product_zone', 'status', 'action'])
             ->setRowId('id');
     }
 
@@ -121,6 +135,7 @@ class ProductDataTable extends DataTable
             Column::make('image'),
             Column::make('name'),
             Column::make('price'),
+            Column::make('product_zone')->width(100),
             Column::make('type')->width(150),
             Column::make('status'),
             Column::computed('action')

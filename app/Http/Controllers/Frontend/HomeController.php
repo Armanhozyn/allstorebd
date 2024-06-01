@@ -16,6 +16,7 @@ use App\Models\Slider;
 use App\Models\SubCategory;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 
@@ -34,7 +35,7 @@ class HomeController extends Controller
         $popularCategory = HomePageSetting::where('key', 'popular_category_section')->first();
         $brands = Brand::where('status', 1)->where('is_featured', 1)->get();
 
-        $typeBaseProducts = $this->getTypeBaseProduct();
+
         $categoryProductSliderSectionOne = HomePageSetting::where('key', 'product_slider_section_one')->first();
         $categoryProductSliderSectionTwo = HomePageSetting::where('key', 'product_slider_section_two')->first();
         $categoryProductSliderSectionThree = HomePageSetting::where('key', 'product_slider_section_three')->first();
@@ -55,7 +56,19 @@ class HomeController extends Controller
 
         $recentBlogs = Blog::with(['category', 'user'])->where('status',1)->orderBy('id', 'DESC')->take(8)->get();
 
-        return view('frontend.home.home',
+        if(Auth::check() && Auth::user()->role == 'company'){
+            
+            $typeBaseProducts = $this->getTypeBaseProductB2B();
+            
+           
+            return view('frontend.b2b.home.home',
+            compact(
+                'brands','typeBaseProducts','popularCategory'
+            ));
+        }else{
+            
+            $typeBaseProducts = $this->getTypeBaseProductB2C();
+            return view('frontend.b2c.home.home',
             compact(
                 'sliders',
                 'flashSaleDate',
@@ -74,6 +87,8 @@ class HomeController extends Controller
                 'recentBlogs'
 
             ));
+        }
+
     }
 
     public function getTypeBaseProduct()
@@ -95,6 +110,52 @@ class HomeController extends Controller
         $typeBaseProducts['best_product'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
         ->with(['variants', 'category', 'productImageGalleries'])
         ->where(['product_type' => 'best_product', 'is_approved' => 1, 'status' => 1])->orderBy('id', 'DESC')->take(8)->get();
+
+        return $typeBaseProducts;
+    }
+
+    public function getTypeBaseProductB2C()
+    {
+        $typeBaseProducts = [];
+
+        $typeBaseProducts['new_arrival'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'new_arrival', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2c'])->orderBy('id', 'DESC')->take(8)->get();
+
+        $typeBaseProducts['featured_product'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'featured_product', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2c'])->orderBy('id', 'DESC')->take(8)->get();
+
+        $typeBaseProducts['top_product'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'top_product', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2c'])->orderBy('id', 'DESC')->take(8)->get();
+
+        $typeBaseProducts['best_product'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'best_product', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2c'])->orderBy('id', 'DESC')->take(8)->get();
+
+        return $typeBaseProducts;
+    }
+
+    public function getTypeBaseProductB2B()
+    {
+        $typeBaseProducts = [];
+
+        $typeBaseProducts['new_arrival'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'new_arrival', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2b'])->orderBy('id', 'DESC')->take(8)->get();
+
+        $typeBaseProducts['featured_product'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'featured_product', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2b'])->orderBy('id', 'DESC')->take(8)->get();
+
+        $typeBaseProducts['top_product'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'top_product', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2b'])->orderBy('id', 'DESC')->take(8)->get();
+
+        $typeBaseProducts['best_product'] = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where(['product_type' => 'best_product', 'is_approved' => 1, 'status' => 1,'product_zone' => 'b2b'])->orderBy('id', 'DESC')->take(8)->get();
 
         return $typeBaseProducts;
     }
@@ -125,4 +186,13 @@ class HomeController extends Controller
 
        return Response::make($content, 200, ['Content-Type' => 'text/html']);
     }
+
+    
+    function ShowProductModalB2B(string $id) {
+        $product = Product::findOrFail($id);
+ 
+        $content = view('frontend.b2b.layouts.product_modal', compact('product'))->render();
+ 
+        return Response::make($content, 200, ['Content-Type' => 'text/html']);
+     }
 }

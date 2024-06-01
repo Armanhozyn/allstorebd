@@ -15,7 +15,7 @@ class UserAddressController extends Controller
     public function index()
     {
         $addresses = UserAddress::where('user_id', Auth::user()->id)->get();
-        return view('frontend.dashboard.address.index', compact('addresses'));
+        return view('frontend.b2c.dashboard.address.index', compact('addresses'));
     }
 
     /**
@@ -23,7 +23,7 @@ class UserAddressController extends Controller
      */
     public function create()
     {
-        return view('frontend.dashboard.address.create');
+        return view('frontend.b2c.dashboard.address.create');
     }
 
     /**

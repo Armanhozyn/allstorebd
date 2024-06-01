@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.b2c.layouts.master')
 
 @section('title')
 {{$settings->site_name}} || Login

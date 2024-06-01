@@ -55,7 +55,8 @@ class ProductController extends Controller
             'long_description' => ['required'],
             'seo_title' => ['nullable','max:200'],
             'seo_description' => ['nullable','max:250'],
-            'status' => ['required']
+            'status' => ['required'],
+            'product_zone' => ['required']
         ]);
 
         /** Handle the image upload */
@@ -84,6 +85,7 @@ class ProductController extends Controller
         $product->is_approved = 1;
         $product->seo_title = $request->seo_title;
         $product->seo_description = $request->seo_description;
+        $product->product_zone = $request->product_zone;
         $product->save();
 
         toastr('Created Successfully!', 'success');

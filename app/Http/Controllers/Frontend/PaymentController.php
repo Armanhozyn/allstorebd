@@ -27,12 +27,21 @@ class PaymentController extends Controller
         if(!Session::has('address')){
             return redirect()->route('user.checkout');
         }
-        return view('frontend.pages.payment');
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.payment');
+        }else{
+            return view('frontend.b2c.pages.payment');
+        }
     }
 
     public function paymentSuccess()
     {
-        return view('frontend.pages.payment-success');
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.payment-success');
+        }else{
+            return view('frontend.b2c.pages.payment-success');
+
+        }
     }
 
     public function storeOrder($paymentMethod, $paymentStatus, $transactionId, $paidAmount, $paidCurrencyName)

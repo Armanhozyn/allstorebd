@@ -94,6 +94,7 @@ Route::get('blog', [BlogController::class, 'blog'])->name('blog');
 
 /** Product routes */
 Route::get('show-product-modal/{id}', [HomeController::class, 'ShowProductModal'])->name('show-product-modal');
+Route::get('show-product-modal-b2b/{id}', [HomeController::class, 'ShowProductModalB2B'])->name('show-product-modal-b2b');
 /** add product in wishlist */
 Route::get('wishlist/add-product', [WishlistController::class, 'addToWishlist'])->name('wishlist.store');
 

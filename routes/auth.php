@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\B2BAuthController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -19,9 +20,13 @@ Route::middleware('guest')->group(function () {
     Route::get('admin/login', [AdminController::class, 'login'])->name('admin.login');
 
     Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+    Route::post('register-b2b', [B2BAuthController::class, 'store'])->name('register.b2b');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
+    Route::get('signup-b2b', [B2BAuthController::class, 'create'])
+                ->name('signup.b2b');
+
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
