@@ -163,7 +163,11 @@ class HomeController extends Controller
     public function vendorPage()
     {
        $vendors = Vendor::where('status',1)->paginate(20);
-       return view('frontend.pages.vendor', compact('vendors'));
+       if(Auth::check() && Auth::user()->role == 'company'){
+           return view('frontend.b2b.pages.vendor', compact('vendors'));
+       }else{
+        return view('frontend.b2c.pages.vendor', compact('vendors'));
+       }
     }
 
     public function vendorProductsPage(string $id)
