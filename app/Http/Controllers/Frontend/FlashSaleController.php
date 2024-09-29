@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FlashSaleController extends Controller
 {
@@ -13,6 +14,10 @@ class FlashSaleController extends Controller
     {
         $flashSaleDate = FlashSale::first();
         $flashSaleItems = FlashSaleItem::where('status', 1)->orderBy('id', 'ASC')->pluck('product_id')->toArray();
-        return view('frontend.pages.flash-sale', compact('flashSaleDate', 'flashSaleItems'));
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.flash-sale', compact('flashSaleDate', 'flashSaleItems'));
+        }else{
+            return view('frontend.b2c.pages.flash-sale', compact('flashSaleDate', 'flashSaleItems'));
+        }
     }
 }

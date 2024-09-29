@@ -7,6 +7,7 @@ use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -26,7 +27,13 @@ class BlogController extends Controller
         } else {
             $blogs = Blog::with('category')->where('status', 1)->orderBy('id', 'DESC')->paginate(12);
         }
-        return view('frontend.pages.blog', compact('blogs'));
+
+        if(Auth::check() && Auth::user()->role == 'company'){
+            return view('frontend.b2b.pages.blog', compact('blogs'));
+        }else{
+            return view('frontend.b2c.pages.blog', compact('blogs'));
+        }
+        
     }
     public function blogDetails(string $slug)
     {
