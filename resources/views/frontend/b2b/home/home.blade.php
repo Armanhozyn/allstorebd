@@ -151,7 +151,7 @@
                      </ul>
                  </div>
                  <div class="product-detail position-relative">
-                     <a href="product-left-thumbnail.html">
+                     <a href="{{route('product-detail', $product->slug)}}">
                          <h6 class="name">
                              {{ limitText($product->name, 53) }}
                          </h6>

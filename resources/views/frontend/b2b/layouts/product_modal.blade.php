@@ -78,7 +78,7 @@
                     <button type='submit'
                         class="btn btn-md add-cart-button icon">Add
                         To Cart</button>
-                    <button onclick="location.href = 'product-left.html';"
+                    <button onclick="location.href = '{{route('product-detail', $product->slug)}}';"
                         class="btn theme-bg-color view-button icon text-white fw-bold btn-md">
                         View More Details</button>
                 </div>

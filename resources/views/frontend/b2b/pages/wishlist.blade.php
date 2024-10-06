@@ -29,7 +29,7 @@
     <!-- Breadcrumb Section End -->
   <section class="wishlist-section section-b-space">
     <div class="xcontainer-fluid-lg">
-        @if (count($wishlistProducts) > 0){
+        @if (count($wishlistProducts) > 0)
             <div class="row g-sm-3 g-2">
                 @foreach ($wishlistProducts as $item)
                     <div class="col-xxl-2 col-lg-3 col-md-4 col-6 product-box-contain">

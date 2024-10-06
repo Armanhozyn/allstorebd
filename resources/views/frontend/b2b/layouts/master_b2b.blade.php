@@ -151,7 +151,16 @@
                                         <a href="{{ route('user.wishlist.index') }}"
                                             class="btn p-0 position-relative header-wishlist">
                                             <i data-feather="heart"></i>
+                                            <span class="position-absolute top-0 start-100 translate-middle badge"
+                                                id="wishlist_count">
+                                                @if (auth()->check())
+                                                {{\App\Models\Wishlist::where('user_id', auth()->user()->id)->count()}}
+                                                @else
+                                                0
+                                                @endif
+                                            </span>
                                         </a>
+
                                     </li>
                                     <li class="right-side">
                                         <div class="onhover-dropdown header-badge">
@@ -210,7 +219,7 @@
                                                 <div class="button-group">
                                                     <a href="{{ route('cart-details') }}"
                                                         class="btn btn-sm cart-button">View Cart</a>
-                                                    <a href="checkout.html"
+                                                    <a href="{{route('user.checkout')}}"
                                                         class="btn btn-sm cart-button theme-bg-color
                                                     text-white">Checkout</a>
                                                 </div>
@@ -345,7 +354,7 @@
     });
     @endphp
     <!-- Footer Section Start -->
-    <footer class="footer-sm">
+    <footer class="footer-sm w-100 position-fixed bottom-0">
         <div class="container-fluid-xs">
             <div class="sub-footer">
                 <div class="reserve">
@@ -471,7 +480,7 @@
     <!-- Location Modal End -->
 
     <!-- Cookie Bar Box Start -->
-    <div class="cookie-bar-box">
+    {{-- <div class="cookie-bar-box">
         <div class="cookie-box">
             <div class="cookie-image">
                 <img src="../assets/images/cookie-bar.png" class="blur-up lazyload" alt="">
@@ -487,7 +496,7 @@
             <button class="btn privacy-button">Privacy Policy</button>
             <button class="btn ok-button">OK</button>
         </div>
-    </div>
+    </div> --}}
     <!-- Cookie Bar Box End -->
 
     <!-- Deal Box Modal Start -->
