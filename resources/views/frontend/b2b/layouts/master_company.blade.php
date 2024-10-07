@@ -1,18 +1,3 @@
-@php
-    $categories = \App\Models\Category::where('status', 1)
-        ->with([
-            'subCategories' => function ($query) {
-                $query->where('status', 1)->with([
-                    'childCategories' => function ($query) {
-                        $query->where('status', 1);
-                    },
-                ]);
-            },
-        ])
-        ->get();
-@endphp
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,20 +80,21 @@
                                     </button>
                                 </div>
                                 <form action="{{ route('products.index') }}" id="searchform" method="GET">
-                                <div class="search-box">
-                                    <div class="input-group">
-                                        <input type="search" class="form-control" placeholder="I'm searching for..."name="search"
-                                        value="{{ request()->search }}">
-                                        <button class="btn bg-theme" type="submit">
-                                            <i data-feather="search"></i>
-                                        </button>
+                                    <div class="search-box">
+                                        <div class="input-group">
+                                            <input type="search" class="form-control"
+                                                placeholder="I'm searching for..."name="search"
+                                                value="{{ request()->search }}">
+                                            <button class="btn bg-theme" type="submit">
+                                                <i data-feather="search"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
                             </div>
 
                             <div class="rightside-box">
-                                
+
                                 <div class="search-full">
 
 
@@ -116,26 +102,17 @@
                                         <span class="input-group-text">
                                             <i data-feather="search" class="font-light"></i>
                                         </span>
-                                        
-                                            <input type="text" class="form-control search-type"
-                                                placeholder="Search here..">
-                                                <span class="input-group-text close-search">
-                                                    <i data-feather="x" class="font-light"></i>
-                                                </span>
+
+                                        <input type="text" class="form-control search-type"
+                                            placeholder="Search here..">
+                                        <span class="input-group-text close-search">
+                                            <i data-feather="x" class="font-light"></i>
+                                        </span>
                                         </form>
                                     </div>
 
                                 </div>
                                 <ul class="right-side-menu">
-                                    {{-- <li class="right-side">
-                                        <div class="delivery-login-box">
-                                            <div class="delivery-icon">
-                                                <div class="search-box">
-                                                    <i data-feather="search"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li> --}}
                                     <li class="right-side">
                                         <a href="contact-us.html" class="delivery-login-box">
                                             <div class="delivery-icon">
@@ -154,9 +131,9 @@
                                             <span class="position-absolute top-0 start-100 translate-middle badge"
                                                 id="wishlist_count">
                                                 @if (auth()->check())
-                                                {{\App\Models\Wishlist::where('user_id', auth()->user()->id)->count()}}
+                                                    {{ \App\Models\Wishlist::where('user_id', auth()->user()->id)->count() }}
                                                 @else
-                                                0
+                                                    0
                                                 @endif
                                             </span>
                                         </a>
@@ -219,7 +196,7 @@
                                                 <div class="button-group">
                                                     <a href="{{ route('cart-details') }}"
                                                         class="btn btn-sm cart-button">View Cart</a>
-                                                    <a href="{{route('user.checkout')}}"
+                                                    <a href="{{ route('user.checkout') }}"
                                                         class="btn btn-sm cart-button theme-bg-color
                                                     text-white">Checkout</a>
                                                 </div>
@@ -251,12 +228,8 @@
                                                 </li>
 
                                                 <li class="product-box-contain">
-                                                    <a href="{{route('company.dashboard')}}">Dashboard</a>
+                                                    <a href="{{ route('user.dashboard') }}">Dashboard</a>
                                                 </li>
-
-                                                {{--<li class="product-box-contain">
-                                                    <a href="forgot.html">Forgot Password</a>
-                                                </li> --}}
                                             </ul>
                                         </div>
                                     </li>
@@ -324,19 +297,18 @@
                                 alt="">
                         </a>
                         <ul>
-                            @foreach ($categories as $category)
-                                <li>
-                                    <div class="category-list">
-                                        {{-- <img src="{{ asset('frontend/svg/icon.svg')}}" class="blur-up lazyload" alt=""> --}}
-                                        <i class="{{ $category->icon }} blur-up lazyload ms-1"
-                                            style="font-size: 18px"></i>
-                                        <h5>
-                                            <a
-                                                href="{{ route('products.index', ['category' => $category->slug]) }}">{{ $category->name }}</a>
-                                        </h5>
-                                    </div>
-                                </li>
-                            @endforeach
+                            <li>
+                                <div class="category-list">
+                                    {{-- <img src="{{ asset('frontend/svg/icon.svg') }}" class="blur-up lazyload"
+                                        alt=""> --}}
+                                    {{-- <i class="{{ $category->icon }} blur-up lazyload ms-1"
+                                            style="font-size: 18px"></i> --}}
+                                    <i class="fas fa-tachometer ms-1"></i>
+                                    <h5>
+                                        <a href="{{ route('company.dashboard') }}">Dashboard</a>
+                                    </h5>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -349,16 +321,16 @@
     </section>
     <!-- Product Section End -->
     @php
-    $footerInfo = Cache::rememberForever('footer_info', function(){
+        $footerInfo = Cache::rememberForever('footer_info', function () {
             return \App\Models\FooterInfo::first();
-    });
+        });
     @endphp
     <!-- Footer Section Start -->
     <footer class="footer-sm w-100 position-fixed bottom-0">
         <div class="container-fluid-xs">
             <div class="sub-footer">
                 <div class="reserve">
-                    <h6 class="text-content">{{$footerInfo->copyright}}</h6>
+                    <h6 class="text-content">{{ $footerInfo->copyright }}</h6>
                 </div>
 
                 <div class="payment">
@@ -683,7 +655,7 @@
     <script src="{{ asset('frontend/b2b/js/theme-setting.js') }}"></script>
 
     @include('frontend.b2b.layouts.scripts')
-    
+
     <script>
         document.getElementById('searchButton').addEventListener('click', function(e) {
             e.preventDefault();

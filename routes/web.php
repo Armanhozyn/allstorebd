@@ -11,6 +11,7 @@ use App\Http\Controllers\Frontend\UserAddressController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\Frontend\CheckOutController;
+use App\Http\Controllers\Frontend\CompanyController;
 use App\Http\Controllers\Frontend\NewsletterController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PaymentController;
@@ -159,4 +160,9 @@ Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'user', 'as' => '
 
     /** COD routes */
     Route::get('cod/payment', [PaymentController::class, 'payWithCod'])->name('cod.payment');
+});
+
+
+Route::group(['middleware' =>['auth', 'verified'], 'prefix' => 'company', 'as' => 'company.'], function(){
+    Route::get('dashboard', [CompanyController::class, 'dashboard'])->name('dashboard');
 });

@@ -36,7 +36,7 @@
                         <div class="product-box-3 h-100">
                             <div class="product-header">
                                 <div class="product-image">
-                                    <a href="product-left-thumbnail.html">
+                                    <a href="{{route('product-detail', $item->product->slug)}}">
                                         <img src="{{asset($item->product->thumb_image)}}" class="img-fluid blur-up lazyload"
                                             alt="">
                                     </a>
@@ -51,7 +51,7 @@
                             <div class="product-footer">
                                 <div class="product-detail">
                                     <span class="span-name">{{ $item->product->category->name }}</span>
-                                    <a href="product-left-thumbnail.html">
+                                    <a href="{{route('product-detail', $item->product->slug)}}l">
                                         <h5 class="name">{{ limitText($item->product->name, 53) }}</h5>
                                     </a>
                                     <h6 class="unit mt-1">{{$item->product->qty}}</h6>

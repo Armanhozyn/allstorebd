@@ -38,14 +38,14 @@
                                     <tr class="product-box-contain">
                                         <td class="product-detail">
                                             <div class="product border-0">
-                                                <a href="product-left-thumbnail.html" class="product-image">
+                                                <a href="{{route('product-detail', $item->slug)}}" class="product-image">
                                                     <img src="{{asset($item->options->image)}}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <div class="product-detail">
                                                     <ul>
                                                         <li class="name">
-                                                            <a href="product-left-thumbnail.html">{!! limitText($item->name,10) !!}</a>
+                                                            <a href="{{route('product-detail', $item->slug)}}">{!! limitText($item->name,10) !!}</a>
                                                         </li>
 
                                                     </ul>

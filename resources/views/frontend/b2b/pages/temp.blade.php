@@ -24,7 +24,7 @@
                             <div class="product-box-3 wow fadeInUp">
                                 <div class="product-header">
                                     <div class="product-image">
-                                        <a href="product-left-2.html">
+                                        <a href="{{route('product-detail', $product->slug)}}">
                                             <img src="{{asset($product->thumb_image)}}"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
@@ -55,7 +55,7 @@
                                 <div class="product-footer">
                                     <div class="product-detail">
                                         <span class="span-name">{{ $product->category->name}}</span>
-                                        <a href="product-left-thumbnail.html">
+                                        <a href="{{route('product-detail', $product->slug)}}">
                                             <h5 class="name">{{ limitText($product->name, 53) }}</h5>
                                         </a>
                                         <div class="product-rating mt-2">

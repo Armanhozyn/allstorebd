@@ -828,7 +828,7 @@
                                 @foreach ($trending_products as $trending_product)
                                     <li>
                                         <div class="offer-product">
-                                            <a href="product-left-thumbnail.html" class="offer-image">
+                                            <a href="{{route('product-detail', $trending_product->slug)}}" class="offer-image">
                                                 <img src="{{asset($trending_product->thumb_image)}}"
                                                     class="img-fluid blur-up lazyload" alt="">
                                             </a>
@@ -899,7 +899,7 @@
                             <div class="product-box-3 wow fadeInUp">
                                 <div class="product-header">
                                     <div class="product-image">
-                                        <a href="product-left-2.html">
+                                        <a href="{{route('product-detail', $related_product->slug)}}">
                                             <img src="{{asset($related_product->thumb_image)}}"
                                                 class="img-fluid blur-up lazyload" alt="">
                                         </a>
@@ -924,7 +924,7 @@
                                 <div class="product-footer">
                                     <div class="product-detail">
                                         <span class="span-name">{{ $related_product->category->name}}</span>
-                                        <a href="product-left-thumbnail.html">
+                                        <a href="{{route('product-detail', $related_product->slug)}}">
                                             <h5 class="name">{{ limitText($related_product->name, 53) }}</h5>
                                         </a>
                                         <div class="product-rating mt-2">
