@@ -24,3 +24,99 @@
 .product-section{
     padding-bottom: 3rem !important;
 }
+
+#company_dashboard {
+    background: linear-gradient(149.8deg, #f8f8fb 17.21%, #f3f5f9 79.21%);
+    padding: 30px 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+#company_dashboard .dashboard-title {
+    font-size: 26px;
+    font-weight: 700;
+    text-align: start;
+    margin-bottom: 30px;
+    color: #4a4a8c;
+    letter-spacing: 0.5px;
+}
+
+#company_dashboard .dashboard-item {
+    background: #6262a6;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: #ffffff;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#company_dashboard .dashboard-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#company_dashboard .dashboard-item i {
+    font-size: 26px;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+#company_dashboard .dashboard-item p {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #e8e8e8;
+    letter-spacing: 0.3px;
+}
+
+#company_dashboard .dashboard-item h4 {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 6px 0 0;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+/* Specific color classes */
+#company_dashboard .dashboard-item.red {
+    background: linear-gradient(135deg, #ff7e7e, #ff5252);
+}
+
+#company_dashboard .dashboard-item.green {
+    background: linear-gradient(135deg, #76c7c0, #47a6a6);
+}
+
+#company_dashboard .dashboard-item.sky {
+    background: linear-gradient(135deg, #76c7f5, #47a6ff);
+}
+
+#company_dashboard .dashboard-item.blue {
+    background: linear-gradient(135deg, #7b83e7, #5c67d2);
+}
+
+#company_dashboard .dashboard-item.purple {
+    background: linear-gradient(135deg, #aa76e7, #9a5cd2);
+}
+
+#company_dashboard .dashboard-item.orange {
+    background: linear-gradient(135deg, #ffae76, #ff9252);
+}
+
+@media (max-width: 768px) {
+    #company_dashboard .col-md-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 576px) {
+    #company_dashboard .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
